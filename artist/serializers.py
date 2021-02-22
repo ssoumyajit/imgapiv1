@@ -8,10 +8,11 @@ from user.models import User
 
 class ArtistSerializers(serializers.ModelSerializer):
     # overridden username here
-    username = serializers.SlugRelatedField(queryset=User.objects.all(),
-                                            slug_field='name')  # this is where the bug is, so don can patch on Batala while updating in postman
-
-    # owner = serializers.ReadOnlyField(source='owner.name')
+    # this is where the bug is, so don can patch on Batala while updating in postman
+    # username = serializers.ReadOnlyField(source='username.name')
+    # username = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # HiddenField https://stackoverflow.com/questions/49557741/django-hiddenfield-value-generated-on-views
+    username = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
 
     class Meta:
         model = Artist
@@ -32,7 +33,6 @@ class ArtistSerializers(serializers.ModelSerializer):
 
 
 class ArtistDataSerializers(serializers.ModelSerializer):
-    # ownerdata = serializers.ReadOnlyField(source='ownerdata.name')
     username = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
 
     class Meta:

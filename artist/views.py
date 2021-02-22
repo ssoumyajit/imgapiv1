@@ -53,11 +53,21 @@ class ArtistDataRetrieveUpdateDestroyViews(generics.RetrieveUpdateDestroyAPIView
 class HighlightsListCreateViews(generics.ListCreateAPIView):
     queryset = Highlights.objects.all()
     serializer_class = HighlightsSerializers
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['username__name']
-    authentication_classes = (JWTAuthentication,)
+    # filter_backends = [filters.SearchFilter]
+    # search_fields = ['username__name']
+    # authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
     # just use explicit queryset n filter
+
+    def get_queryset(self):
+        """
+        filtering against queryset
+        """
+        queryset = Highlights.objects.all()
+        username = self.request.query_params.get('username', None)
+        if username is not None:
+            queryset = queryset.filter(username__name=username)
+        return queryset
 
 
 class HighlightsRUDViews(generics.RetrieveUpdateDestroyAPIView):
@@ -75,7 +85,7 @@ class JourneyListCreateViews(generics.ListCreateAPIView):
     serializer_class = JourneySerializers
     filter_backends = [filters.SearchFilter]
     search_fields = ['username__name']
-    authentication_classes = (JWTAuthentication,)
+    # authentication_classes = (JWTAuthentication,)  # JWTAuthentication & SessionAuth are different...really.
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 

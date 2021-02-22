@@ -95,12 +95,12 @@ class Highlights(models.Model):
 
     def save(self, *args, **kwargs):
         super(Highlights, self).save(*args, **kwargs)
-        photo = Image.open(self.h_photo.path)
+        photo = Image.open(self.hiphoto.path)
         photo.thumbnail((240, 180), Image.ANTIALIAS)
-        photo.save(self.h_photo.path, optimize=True, quality=90)
+        photo.save(self.hiphoto.path, optimize=True, quality=90)
 
     def __str__(self):
-        return self.h_date
+        return self.hidate
 
 
 class Journey(models.Model):
