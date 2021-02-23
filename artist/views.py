@@ -87,7 +87,16 @@ class JourneyListCreateViews(generics.ListCreateAPIView):
     search_fields = ['username__name']
     # authentication_classes = (JWTAuthentication,)  # JWTAuthentication & SessionAuth are different...really.
     permission_classes = (IsAuthenticatedOrReadOnly,)
-
+    
+    def get_queryset(self):
+        """
+        filtering against queryset
+        """
+        queryset = Journey.objects.all()
+        username = self.request.query_params.get('username', None)
+        if username is not None:
+            queryset = queryset.filter(username__name=username)
+        return queryset
 
 class JourneyRUDViews(generics.RetrieveUpdateDestroyAPIView):
     queryset = Journey.objects.all()
