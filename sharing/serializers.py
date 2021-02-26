@@ -21,13 +21,13 @@ class CommentSerializers(serializers.ModelSerializer):
 
 
 class SharingSerializers(serializers.ModelSerializer):
-    s_student = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
-    s_teacher = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
+    username = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
+    teacher = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='name')
     # likes_count = serializers.SerializerMethodField()
     likes_sharing = LikesToSharingSerializers(many=True, read_only=True)
     comments_sharing = CommentSerializers(many=True, read_only=True)
 
     class Meta:
         model = Sharing
-        fields = ['id', 's_student', 's_teacher', 's_teacher_name', 's_photo', 's_appreciation', 's_video_talk',
+        fields = ['id', 'username', 'teacher', 's_teacher_name', 's_photo', 's_appreciation', 's_video_talk',
                   's_video_dance', 's_date', 's_location', 'likes_sharing', 'comments_sharing']

@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from .models import Artist, ArtistData, Highlights, Journey
 from .serializers import ArtistSerializers, ArtistDataSerializers, HighlightsSerializers, JourneySerializers
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import permissions
 from rest_framework import filters
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .permissions import IsOwnerOrReadonly
+from permissions import IsOwnerOrReadonly
 from rest_framework import generics
 
 
@@ -97,6 +97,7 @@ class JourneyListCreateViews(generics.ListCreateAPIView):
         if username is not None:
             queryset = queryset.filter(username__name=username)
         return queryset
+
 
 class JourneyRUDViews(generics.RetrieveUpdateDestroyAPIView):
     queryset = Journey.objects.all()

@@ -10,9 +10,11 @@ import uuid
 
 
 class Sharing(models.Model):
-    s_student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="student")
-    s_teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="teacher", null=True,
-                                  blank=True)
+    # SHARING starts with the student.
+
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="student")
+    teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="teacher", null=True,
+                                blank=True)
     s_teacher_name = models.CharField(default="", max_length=255)
     s_teacher_country = CountryField()
     s_photo = models.ImageField(default="", upload_to="sharing/")
@@ -61,3 +63,12 @@ class Comments(models.Model):
     c_commenter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     c_comment = models.CharField(max_length=255)  # add a validation here.
     # may be here just a like option embedded directly, no types of like.
+
+
+class SharingMessage(models.Model):
+    pass
+    # username = fk (User)     : view > if request.user -> MessagePermission (True)
+    # shareid = fk (Sharing)   # : add validation on serializer based on username and trim down the options ( one user has few shares only )
+    # add frontend validation: automatically add shareid, coz u r in detail page.
+    # messagetext = charfield
+
